@@ -6,6 +6,6 @@ kind: ConfigMap
 metadata:
   name: shopflow-config
 data:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://REPLACE_RDS_ENDPOINT:5432/shopflow"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://shopflow-db.cq5ko8mysn3q.us-east-1.rds.amazonaws.com:5432/shopflow"
   ORDER_EVENTS_QUEUE_NAME: "shopflow-order-events"
   AWS_REGION: "us-east-1"

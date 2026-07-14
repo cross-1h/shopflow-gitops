@@ -15,7 +15,7 @@ spec:
       containers:
         - name: notifications-service
           # EDIT: your ECR registry.
-          image: REPLACE_REGISTRY/shopflow-notifications:1.0
+          image: 922685583704.dkr.ecr.us-east-1.amazonaws.com/shopflow-notifications:1.0
           ports:
             - containerPort: 8080
           env:

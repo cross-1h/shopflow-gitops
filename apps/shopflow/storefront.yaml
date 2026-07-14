@@ -15,7 +15,7 @@ spec:
       containers:
         - name: storefront
           # EDIT: your ECR registry.
-          image: REPLACE_REGISTRY/shopflow-storefront:1.0
+          image: 922685583704.dkr.ecr.us-east-1.amazonaws.com/shopflow-storefront:1.0
           ports:
             - containerPort: 80
           readinessProbe:
