@@ -15,7 +15,7 @@ spec:
       containers:
         - name: orders-service
           # EDIT: your ECR registry. Jenkins updates this tag on each release.
-          image: 922685583704.dkr.ecr.us-east-1.amazonaws.com/shopflow-orders:2-566407e2
+          image: 922685583704.dkr.ecr.us-east-1.amazonaws.com/shopflow-orders:1.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
