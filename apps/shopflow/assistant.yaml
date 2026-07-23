@@ -65,7 +65,7 @@ spec:
               valueFrom: { configMapKeyRef: { name: assistant-config, key: LLM_TIMEOUT_SECONDS } }
             - name: ASSISTANT_SYSTEM_PROMPT
               valueFrom: { configMapKeyRef: { name: assistant-config, key: ASSISTANT_SYSTEM_PROMPT } }
-            # The key comes from a Secret that is NOT in git.
+            # The key comes from a Secret that is NOT in git..
             - name: LLM_API_KEY
               valueFrom: { secretKeyRef: { name: llm-credentials, key: api-key } }
           resources:
