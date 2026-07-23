@@ -23,7 +23,7 @@ data:
   LLM_MODEL: "llama-3.3-70b-versatile"
 
   LLM_TEMPERATURE: "0.2"
-  LLM_TIMEOUT_SECONDS: "1"
+  LLM_TIMEOUT_SECONDS: "0.5"
 
   # The prompt, version-controlled. Change it, commit, and ArgoCD rolls it out.
   ASSISTANT_SYSTEM_PROMPT: >-
