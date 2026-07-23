@@ -1,0 +1,92 @@
+# The AI service, delivered the GitOps way.
+#
+# Commit this file to your GitOps repo and ArgoCD deploys it. You will not run
+# a single deploy command to ship a brand new AI service into a running platform.
+# That is the payoff of Phase 1.
+#
+# NOTE WHAT IS HERE AND WHAT IS NOT:
+#   - The PROMPT is here, in the ConfigMap. It is configuration, so it belongs
+#     in git: changing how the assistant behaves is a reviewable pull request,
+#     and a bad prompt is reverted with `git revert`.
+#   - The API KEY is NOT here. It is in a Kubernetes Secret you create by hand.
+#     Git is the source of truth for everything except secrets. Reconciling
+#     those two facts is one of your report questions.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: assistant-config
+data:
+  CATALOG_URL: "http://catalog-service:8080"
+
+  # EDIT: your provider's endpoint and model (see FREE-MODELS.md).
+  LLM_BASE_URL: "https://api.groq.com/openai/v1"
+  LLM_MODEL: "llama-3.3-70b-versatile"
+
+  LLM_TEMPERATURE: "0.2"
+  LLM_TIMEOUT_SECONDS: "8"
+
+  # The prompt, version-controlled. Change it, commit, and ArgoCD rolls it out.
+  ASSISTANT_SYSTEM_PROMPT: >-
+    You are a helpful shopping assistant for an online store called ShopFlow.
+    Recommend ONLY products from the list you are given. Never invent a product.
+    If nothing in the list fits the customer's need, say so honestly.
+    Be warm, concise, and practical. Never mention that you are an AI model.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assistant-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: assistant-service
+  template:
+    metadata:
+      labels:
+        app: assistant-service
+    spec:
+      containers:
+        - name: assistant-service
+          # EDIT: your ECR registry. Jenkins updates this tag on each release.
+          image: 922685583704.dkr.ecr.us-east-1.amazonaws.com/shopflow-assistant:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: CATALOG_URL
+              valueFrom: { configMapKeyRef: { name: assistant-config, key: CATALOG_URL } }
+            - name: LLM_BASE_URL
+              valueFrom: { configMapKeyRef: { name: assistant-config, key: LLM_BASE_URL } }
+            - name: LLM_MODEL
+              valueFrom: { configMapKeyRef: { name: assistant-config, key: LLM_MODEL } }
+            - name: LLM_TEMPERATURE
+              valueFrom: { configMapKeyRef: { name: assistant-config, key: LLM_TEMPERATURE } }
+            - name: LLM_TIMEOUT_SECONDS
+              valueFrom: { configMapKeyRef: { name: assistant-config, key: LLM_TIMEOUT_SECONDS } }
+            - name: ASSISTANT_SYSTEM_PROMPT
+              valueFrom: { configMapKeyRef: { name: assistant-config, key: ASSISTANT_SYSTEM_PROMPT } }
+            # The key comes from a Secret that is NOT in git.
+            - name: LLM_API_KEY
+              valueFrom: { secretKeyRef: { name: llm-credentials, key: api-key } }
+          resources:
+            requests: { cpu: "200m", memory: "384Mi" }
+            limits:   { cpu: "500m", memory: "512Mi" }
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: 8080 }
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8080 }
+            initialDelaySeconds: 30
+            periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: assistant-service
+spec:
+  selector:
+    app: assistant-service
+  ports:
+    - port: 8080
+      targetPort: 8080
