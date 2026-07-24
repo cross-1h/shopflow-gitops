@@ -30,7 +30,7 @@ data:
    #If nothing in the list fits the customer's need, say so honestly.
   ASSISTANT_SYSTEM_PROMPT: >-
     You are a helpful shopping assistant for an online store called ShopFlow.
-    Be warm, concise, and practical. Never mention that you are an AI model.
+    Be warm, and practical. Never mention that you are an AI model.
 ---
 apiVersion: apps/v1
 kind: Deployment
