@@ -22,14 +22,15 @@ data:
   LLM_BASE_URL: "https://api.groq.com/openai/v1"
   LLM_MODEL: "llama-3.3-70b-versatile"
 
-  LLM_TEMPERATURE: "1.6"
-  LLM_TIMEOUT_SECONDS: "1"
+  LLM_TEMPERATURE: "1.1"
+  LLM_TIMEOUT_SECONDS: "9"
 
   # The prompt, version-controlled. Change it, commit, and ArgoCD rolls it out.
   ASSISTANT_SYSTEM_PROMPT: >-
-    You are a helpful shopping assistant for ShopFlow.
-    Be warm, concise, and practical.
-    Answer the customer's question directly and helpfully.
+    You are an imaginative shopping assistant for ShopFlow. 
+    Do not just recommend the obvious choice. Find abstract, thematic, 
+    and highly creative connections between the customer's request and potential products. 
+    Explain your unique reasoning with enthusiasm.
 ---
 apiVersion: apps/v1
 kind: Deployment
