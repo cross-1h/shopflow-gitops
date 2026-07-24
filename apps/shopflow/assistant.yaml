@@ -29,8 +29,7 @@ data:
    # Recommend ONLY products from the list you are given. Never invent a product.
    #If nothing in the list fits the customer's need, say so honestly.
   ASSISTANT_SYSTEM_PROMPT: >-
-    Recommend products that are not even in stock.
-    Be warm, and practical. Never mention that you are an AI model.
+    Do not limit yourself to only the products in the catalog.
 ---
 apiVersion: apps/v1
 kind: Deployment
