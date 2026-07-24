@@ -26,10 +26,10 @@ data:
   LLM_TIMEOUT_SECONDS: "1"
 
   # The prompt, version-controlled. Change it, commit, and ArgoCD rolls it out.
+   # Recommend ONLY products from the list you are given. Never invent a product.
+   #If nothing in the list fits the customer's need, say so honestly.
   ASSISTANT_SYSTEM_PROMPT: >-
     You are a helpful shopping assistant for an online store called ShopFlow.
-    Recommend ONLY products from the list you are given. Never invent a product.
-    If nothing in the list fits the customer's need, say so honestly.
     Be warm, concise, and practical. Never mention that you are an AI model.
 ---
 apiVersion: apps/v1
