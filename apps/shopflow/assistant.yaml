@@ -51,7 +51,8 @@ spec:
       containers:
         - name: assistant-service
           # EDIT: your ECR registry. Jenkins updates this tag on each release.
-          image: 922685583704.dkr.ecr.us-east-1.amazonaws.com/shopflow-assistant:1.0
+          image: 922685583704.dkr.ecr.us-east-1.amazonaws.com/shopflow-assistant:1.1
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
