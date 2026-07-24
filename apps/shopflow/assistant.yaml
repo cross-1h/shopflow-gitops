@@ -22,7 +22,7 @@ data:
   LLM_BASE_URL: "https://api.groq.com/openai/v1"
   LLM_MODEL: "llama-3.3-70b-versatile"
 
-  LLM_TEMPERATURE: "0.2"
+  LLM_TEMPERATURE: "1.1"
   LLM_TIMEOUT_SECONDS: "1"
 
   # The prompt, version-controlled. Change it, commit, and ArgoCD rolls it out.
